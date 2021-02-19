@@ -1,9 +1,11 @@
-package com.fatec.sp.gov.br.entities;
+package com.fatec.sp.gov.br.teste.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistance.Id;
+import javax.persistence.Id;
 
 //TODO: Terminar a entidade
 @Entity
@@ -11,10 +13,14 @@ import javax.persistance.Id;
 public class Usuario{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "usr_id")
     private Long id;
 
+    @Column(name = "usr_nome")
     private String nome;
 
+    @Column(name = "usr_senha")
     private String senha;
 
     public Long getId(){
