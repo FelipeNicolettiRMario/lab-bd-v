@@ -1,13 +1,19 @@
 package com.fatec.sp.gov.br.teste.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
-//TODO: Terminar a entidade
 @Entity
 @Table(name = "usr_usuario")
 public class Usuario{
@@ -22,6 +28,13 @@ public class Usuario{
 
     @Column(name = "usr_senha")
     private String senha;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "uau_usuario_autorizacao",
+               joinColumns  = {@JoinColumn(referencedColumnName = "usr_id")},
+               inverseJoinColumns = {@JoinColumn(referencedColumnName = "aut_id")}
+    )
+    private Set<Autorizacao> autorizacoes;
 
     public Long getId(){
         return this.id;
@@ -45,5 +58,13 @@ public class Usuario{
 
     public void setSenha(String senha){
         this.senha = senha;
+    }
+
+    public Set<Autorizacao> getAutorizacoes(){
+         return this.autorizacoes;
+    }
+
+    public void setAutorizacoes(Set<Autorizacao> autorizacoes){
+        this.autorizacoes = autorizacoes;
     }
 }

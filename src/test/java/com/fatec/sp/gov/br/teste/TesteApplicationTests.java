@@ -2,7 +2,9 @@ package com.fatec.sp.gov.br.teste;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.fatec.sp.gov.br.teste.entities.Autorizacao;
 import com.fatec.sp.gov.br.teste.entities.Usuario;
+import com.fatec.sp.gov.br.teste.repositories.AutorizacaoRepository;
 import com.fatec.sp.gov.br.teste.repositories.UsuarioRepository;
 
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,9 @@ class TesteApplicationTests {
     @Autowired
     private UsuarioRepository usuarioRepo;
 
+    @Autowired
+    private AutorizacaoRepository autRepo;
+
 	@Test
 	void contextLoads() {
 	}
@@ -30,5 +35,13 @@ class TesteApplicationTests {
         usuario.setSenha("1234");
         usuarioRepo.save(usuario);
         assertNotNull(usuario.getId());
+    }
+
+    @Test
+    void testaAutorizacao(){
+        Autorizacao autorizacao = new Autorizacao();
+        autorizacao.setNome("ADMIN");
+        autRepo.save(autorizacao);
+        assertNotNull(autorizacao.getId());
     }
 }
