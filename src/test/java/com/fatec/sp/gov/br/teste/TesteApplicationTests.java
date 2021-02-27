@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashSet;
+import java.util.List;
 
 import com.fatec.sp.gov.br.teste.entities.Autorizacao;
 import com.fatec.sp.gov.br.teste.entities.Usuario;
@@ -56,4 +57,30 @@ class TesteApplicationTests {
         Autorizacao autorizacao = autRepo.findById(1L).get();
         assertEquals("Felipe", autorizacao.getUsuarios().iterator().next().getNome());
     }
+
+    @Test
+    void testaFindByNomeContains(){
+        List<Usuario> usuarios = usuarioRepo.findByNomeContainsIgnoreCase("e");
+        assertNotNull(usuarios.isEmpty());
+    }
+
+    @Test
+    void testeFindByNome(){
+        Usuario usuario = usuarioRepo.findByNome("Felipe");
+        assertNotNull(usuario);
+    }
+
+    @Test
+    void testeFindByNomeAndSenha(){
+        Usuario usuario = usuarioRepo.findByNomeAndSenha("Gabriel", "1234");
+        assertNotNull(usuario);
+    }
+
+    @Test
+    void testeFindByAutorizacoesNome(){
+        List<Usuario> usuarios = usuarioRepo.findByAutorizacoesNome("ADM");
+        assertNotNull(usuarios.isEmpty());
+    }
+
+
 }
