@@ -1,11 +1,16 @@
 package com.fatec.sp.gov.br.teste.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
+
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Table(name = "aut_autorizacao")
@@ -18,6 +23,9 @@ public class Autorizacao{
 
     @Column(name = "aut_nome")
     private String nome;
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "autorizacoes")
+    private Set<Usuario> usuarios;
 
     public Long getId(){
         return this.id;
@@ -33,6 +41,14 @@ public class Autorizacao{
 
     public void setNome(String nome){
         this.nome = nome;
+    }
+
+    public Set<Usuario> getUsuarios(){
+         return this.usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios){
+        this.usuarios = usuarios;
     }
 
 }

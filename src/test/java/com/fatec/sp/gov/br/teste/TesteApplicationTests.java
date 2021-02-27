@@ -1,6 +1,9 @@
 package com.fatec.sp.gov.br.teste;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.HashSet;
 
 import com.fatec.sp.gov.br.teste.entities.Autorizacao;
 import com.fatec.sp.gov.br.teste.entities.Usuario;
@@ -31,17 +34,26 @@ class TesteApplicationTests {
     @Test
     void testaInsercao(){
         Usuario usuario = new Usuario();
-        usuario.setNome("Gabriel");
+        usuario.setNome("Joao");
         usuario.setSenha("1234");
+        usuario.setAutorizacoes(new HashSet<Autorizacao>());
+        Autorizacao aut = new Autorizacao();
+        aut.setNome("ROLE_USER2");
+        autRepo.save(aut);
+        usuario.getAutorizacoes().add(aut);
         usuarioRepo.save(usuario);
-        assertNotNull(usuario.getId());
+        assertNotNull(usuario.getAutorizacoes().iterator().next().getNome());
     }
 
     @Test
     void testaAutorizacao(){
-        Autorizacao autorizacao = new Autorizacao();
-        autorizacao.setNome("ADMIN");
-        autRepo.save(autorizacao);
-        assertNotNull(autorizacao.getId());
+        Usuario usuario = usuarioRepo.findById(1L).get();
+        assertEquals("ADM",usuario.getAutorizacoes().iterator().next().getNome());
+    }
+
+    @Test
+    void testaUsuario(){
+        Autorizacao autorizacao = autRepo.findById(1L).get();
+        assertEquals("Felipe", autorizacao.getUsuarios().iterator().next().getNome());
     }
 }
