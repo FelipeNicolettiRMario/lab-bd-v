@@ -10,6 +10,7 @@ import com.fatec.sp.gov.br.teste.entities.Autorizacao;
 import com.fatec.sp.gov.br.teste.entities.Usuario;
 import com.fatec.sp.gov.br.teste.repositories.AutorizacaoRepository;
 import com.fatec.sp.gov.br.teste.repositories.UsuarioRepository;
+import com.fatec.sp.gov.br.teste.service.SegurancaService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ class TesteApplicationTests {
 
     @Autowired
     private AutorizacaoRepository autRepo;
+
+    @Autowired
+    private SegurancaService segService;
 
 	@Test
 	void contextLoads() {
@@ -48,13 +52,13 @@ class TesteApplicationTests {
 
     @Test
     void testaAutorizacao(){
-        Usuario usuario = usuarioRepo.findById(1L).get();
+        Usuario usuario = usuarioRepo.findById(2L).get();
         assertEquals("ADM",usuario.getAutorizacoes().iterator().next().getNome());
     }
 
     @Test
     void testaUsuario(){
-        Autorizacao autorizacao = autRepo.findById(1L).get();
+        Autorizacao autorizacao = autRepo.findById(2L).get();
         assertEquals("Felipe", autorizacao.getUsuarios().iterator().next().getNome());
     }
 
@@ -72,7 +76,7 @@ class TesteApplicationTests {
 
     @Test
     void testeFindByNomeAndSenha(){
-        Usuario usuario = usuarioRepo.findByNomeAndSenha("Gabriel", "1234");
+        Usuario usuario = usuarioRepo.findByNomeAndSenha("Felipe", "1234");
         assertNotNull(usuario);
     }
 
@@ -82,5 +86,28 @@ class TesteApplicationTests {
         assertNotNull(usuarios.isEmpty());
     }
 
+    @Test
+    void testeAchaUsuarioPorNome(){
+        Usuario usuario = usuarioRepo.buscaUsuarioPorNome("Felipe");
+        assertNotNull(usuario);
+    }
+
+    @Test
+    void testeProcuraUsuarioPorNomeESenha(){
+        Usuario usuario = usuarioRepo.buscaUsuarioPorNomeESenha("Felipe", "1234");
+        assertNotNull(usuario);
+    }
+
+    @Test
+    void testeProcuraPorNomeAutorizacao(){
+        List<Usuario> usuarios = usuarioRepo.buscarPorNomeAutorizacao("ADM");
+        assertNotNull(usuarios.isEmpty());
+    }
+
+    @Test
+    void testaSegurancaService(){
+        Usuario usuario = segService.criarUsuario("Gabriel","1234","Manager");
+        assertNotNull(usuario);
+    }
 
 }

@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AutorizacaoRepository extends JpaRepository<Autorizacao,Long>{
     
+    public Autorizacao findByNome(String autorizacao);
+
 }
